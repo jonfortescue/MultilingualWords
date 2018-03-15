@@ -15,6 +15,7 @@ if sys.platform == "win32":
     else:
         del uniconsole # reduce pollution, not needed anymore
 
+# obtained from https://dumps.wikimedia.org/enwiktionary/
 DUMP_FILE_PATH = "enwiktionary-20180301-pages-articles-multistream.xml"
 
 articles = dict()
