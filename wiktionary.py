@@ -28,7 +28,7 @@ for event, element in etree.iterparse(DUMP_FILE_PATH, tag="{http://www.mediawiki
     if (":" not in title and element.find("{http://www.mediawiki.org/xml/export-0.10/}redirect") is None):
         revision = element.find("{http://www.mediawiki.org/xml/export-0.10/}revision")
         text = revision.findtext("{http://www.mediawiki.org/xml/export-0.10/}text")
-        langsRE = re.compile(r'(^|\s)==[^=]+==(\s|$)')
+        langsRE = re.compile(r'(^|\s)==.*[^=]==(\s|$)')
         langsMatch = langsRE.findall(text)
         articles[title] = len(langsMatch)
         count += 1
