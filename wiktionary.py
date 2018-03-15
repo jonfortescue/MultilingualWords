@@ -17,7 +17,8 @@ if sys.platform == "win32":
         del uniconsole # reduce pollution, not needed anymore
 
 # obtained from https://dumps.wikimedia.org/enwiktionary/
-DUMP_FILE_PATH = "dumps/enwiktionary-20180301-pages-articles-multistream.xml"
+# provide a path via command line
+DUMP_FILE_PATH = "dumps/%s" % sys.argv[1]
 
 articles = dict()
 count = 0
