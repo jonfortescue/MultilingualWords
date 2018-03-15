@@ -17,7 +17,7 @@ if sys.platform == "win32":
         del uniconsole # reduce pollution, not needed anymore
 
 # obtained from https://dumps.wikimedia.org/enwiktionary/
-DUMP_FILE_PATH = "enwiktionary-20180301-pages-articles-multistream.xml"
+DUMP_FILE_PATH = "dumps/enwiktionary-20180301-pages-articles-multistream.xml"
 
 articles = dict()
 count = 0
@@ -39,8 +39,14 @@ f = codecs.open("topwords.txt", "w", "utf-8")
 print "Writing results to file..."
 
 count = 1
+rank = count
+prevRankVal = -1
 for article in sorted(articles, key=articles.get, reverse=True):
-    f.write("#%d\t%s: %d languages\n" % (count, article, articles[article]))
+    numLangs = articles[article]
+    if numLangs != prevRankVal:
+        rank = count
+    prevRankVal == numLangs
+    f.write("#%d\t%s: %d languages\n" % (count, article, numLangs))
     count += 1
     if count > 10000:
         break
