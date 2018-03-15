@@ -27,6 +27,8 @@ def is_ascii(s):
 parser = argparse.ArgumentParser(description='Parse Wiktionary dump for multilingual words')
 parser.add_argument('dump_file', nargs=1)
 parser.add_argument("--nonascii", action="store_true")
+parser.add_argument("--nonlatin", action="store_true") # TODO: implement
+parser.add_argument("--noletters", action="store_true") # TODO: implement
 args = parser.parse_args()
 
 # obtained from https://dumps.wikimedia.org/enwiktionary/
