@@ -45,8 +45,8 @@ for article in sorted(articles, key=articles.get, reverse=True):
     numLangs = articles[article]
     if numLangs != prevRankVal:
         rank = count
-    prevRankVal == numLangs
-    f.write("#%d\t%s: %d languages\n" % (count, article, numLangs))
+    prevRankVal = numLangs
+    f.write("#%d\t%s: %d languages\n" % (rank, article, numLangs))
     count += 1
     if count > 10000:
         break
