@@ -1,6 +1,9 @@
 # Put your wiktionary dumps here!
 dumps/
 
+# Ignore results file
+topwords.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
