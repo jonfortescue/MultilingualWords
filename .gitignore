@@ -1,8 +1,8 @@
 # Put your wiktionary dumps here!
 dumps/
 
-# Ignore results file
-topwords.txt
+# Ignore results directory
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -14,6 +14,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+bin/
+include/
+local/
 env/
 build/
 develop-eggs/
@@ -36,6 +39,7 @@ wheels/
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+pip-selfcheck.json
 
 # Installer logs
 pip-log.txt
