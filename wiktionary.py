@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import sys
 import re
 import argparse
@@ -25,7 +27,21 @@ if sys.platform == "win32":
 #############################################
 
 def is_ascii(s):
-    return all(ord(char) < 128 for char in s)
+    return all(ord(char) < 128 for char in s.decode('utf-8'))
+
+def is_latin(s):
+    return all((ord(char) < 592 or ord(char) > 7679 and ord(char) < 7936) for char in s.decode('utf-8'))
+
+# impolete, but helps remove single letters from results
+def is_letter(s):
+    if len(s.decode('utf-8')) > 1:
+        return False
+    else:
+        return s in [u"A", u"B", u"C", u"D", u"E", u"F", u"G", u"H", u"I", u"J", u"K", u"L", u"M", u"N", u"O", u"P", u"Q", u"R", u"S",
+                     u"T", u"U", u"V", u"X", u"Y", u"Z", u"А", u"Б", u"Ц", u"Д", u"Е", u"Ф", u"Г", u"Х", u"И", u"Й", u"К", u"Л", u"М",
+                     u"Н", u"О", u"П", u"Я", u"Р", u"С", u"Т", u"У", u"Ж", u"В", u"Ь", u"Ы", u"З", u"ا‎", u"ب‎", u" ت", u"ث‎", u"ج‎", u"ح‎",
+                     u"خ‎", u"د‎", u"ذ‎", u"ر‎", u"ز‎", u"س‎", u"ش‎", u"ص‎", u"ض‎", u"ط‎", u"ظ‎", u"ع‎", u"غ‎", u"ف‎", u"ق‎", u"з",
+                     u"ك‎", u"ل‎", u"م‎", u"ن‎", u"ه‎", u"و‎", u"ي‎", u"ج", u"ت"]
 
 def download_file(url, file_name):
     u = urllib2.urlopen(url)
@@ -54,8 +70,8 @@ parser.add_argument("--lang", nargs="?", default="en")
 parser.add_argument("-r", "--redownload", action="store_true")
 parser.add_argument("--onlyascii", action="store_true")
 parser.add_argument("--nonascii", action="store_true")
-parser.add_argument("--nonlatin", action="store_true")  # TODO: implement
-parser.add_argument("--noletters", action="store_true")  # TODO: implement
+parser.add_argument("--nonlatin", action="store_true")
+parser.add_argument("--noletters", action="store_true")
 args = parser.parse_args()
 
 Path("dumps").mkdir(exist_ok=True)
@@ -76,7 +92,9 @@ count = 0
 
 for event, element in etree.iterparse(DUMP_FILE_PATH, tag="{http://www.mediawiki.org/xml/export-0.10/}page"):
     title = element.findtext("{http://www.mediawiki.org/xml/export-0.10/}title")
-    if (":" not in title and not (args.nonascii and is_ascii(title)) and element.find("{http://www.mediawiki.org/xml/export-0.10/}redirect") is None):
+    if (":" not in title and not (args.nonascii and is_ascii(title)) and not (args.noletters and is_letter(title))
+       and not (args.onlyascii and not is_ascii(title)) and not (args.nonlatin and is_latin(title))
+       and element.find("{http://www.mediawiki.org/xml/export-0.10/}redirect") is None):
         revision = element.find("{http://www.mediawiki.org/xml/export-0.10/}revision")
         text = revision.findtext("{http://www.mediawiki.org/xml/export-0.10/}text")
         langsRE = re.compile(r'(^|\s)==.*[^=]==(\s|$)')
